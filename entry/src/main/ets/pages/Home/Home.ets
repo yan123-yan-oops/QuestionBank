@@ -1,9 +1,15 @@
-import { router } from "@kit.ArkUI"
+interface PageParam {
+}
 
-@Entry
+// 必须用 @Builder 暴露，供 route_map 引用
+@Builder
+export function HomeBuilder() {
+  Home()
+}
+
 @Component
-export struct HomePage {
-
+export struct Home {
+  @Consume("navStack") pageStack:NavPathStack
 
   build() {
     Column() {
@@ -12,7 +18,7 @@ export struct HomePage {
           Image($r('app.media.ic_common_search'))
             .width(20)
 
-          TextInput({placeholder:'请输入内容'})
+          TextInput({placeholder:'  请输入内容'})
             .width('90%')
         }
         .width('100%')
@@ -39,13 +45,15 @@ export struct HomePage {
       Row(){ //前端鸿蒙的两个方形卡没找到资源
         Button('前端')
           .onClick(()=>{
-            router.pushUrl({url:'pages/FrontendPage'})
+            const param: PageParam = {}
+            this.pageStack.pushPathByName('Frontend', param)
           })
 
 
         Button('鸿蒙')
           .onClick(()=>{
-            router.pushUrl({url:'pages/HarmonyOS'})
+            const param: PageParam = {}
+            this.pageStack.pushPathByName('HarmonyOS', param)
           })
       }.width('100%')
       .margin({top:18})

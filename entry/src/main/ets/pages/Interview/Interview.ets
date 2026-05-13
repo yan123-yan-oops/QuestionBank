@@ -1,6 +1,12 @@
-@Entry
+
+@Builder
+export function InterviewBuilder() {
+  Interview()
+}
+
+
 @Component
-export struct ProjectPage {
+export struct Interview {
   @State message: string = 'Hello World';
 
   build() {

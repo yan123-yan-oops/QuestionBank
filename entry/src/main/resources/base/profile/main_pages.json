@@ -1,12 +1,6 @@
 {
   "src": [
     "pages/Index",
-    "pages/HomePage",
-    "pages/TabsPage",
-    "pages/MinePage",
-    "pages/ProjectPage",
-    "pages/InterviewPage",
-    "pages/FrontendPage",
-    "pages/HarmonyOS"
+    "pages/TabsPage"
   ]
 }

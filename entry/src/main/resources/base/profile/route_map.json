@@ -1,0 +1,41 @@
+{
+  "routerMap": [
+    {
+      "name": "Home",
+      "pageSourceFile": "src/main/ets/pages/Home/Home.ets",
+      "buildFunction": "HomeBuilder",
+      "data": { "desc": "首页" }
+    },
+    {
+      "name": "InterviewPage",
+      "pageSourceFile": "src/main/ets/pages/Interview/Interview.ets",
+      "buildFunction": "InterviewBuilder",
+      "data": { "desc": "面谈" }
+    },{
+      "name": "ProjectPage",
+      "pageSourceFile": "src/main/ets/pages/Project/Project.ets",
+      "buildFunction": "ProjectBuilder",
+      "data": { "desc": "项目" }
+    },{
+      "name": "MinePage",
+      "pageSourceFile": "src/main/ets/pages/Mine/Mine.ets",
+      "buildFunction": "MineBuilder",
+      "data": { "desc": "我的" }
+    },{
+      "name": "HarmonyOS",
+      "pageSourceFile": "src/main/ets/pages/Home/HarmonyOS.ets",
+      "buildFunction": "HarmonyOSBuilder",
+      "data": { "desc": "鸿蒙", "needLogin": "1" }
+    },{
+      "name": "Frontend",
+      "pageSourceFile": "src/main/ets/pages/Home/Frontend.ets",
+      "buildFunction": "FrontendBuilder",
+      "data": { "desc": "前端", "needLogin": "1" }
+    },{
+      "name": "Login",
+      "pageSourceFile": "src/main/ets/pages/Login/Login.ets",
+      "buildFunction": "LoginBuilder",
+      "data": { "needLogin": "1" }
+    }
+  ]
+}
