@@ -52,7 +52,18 @@ export struct ExerciseComponent {
         Column() {
 
           Row() {
+            Scroll(){
+               Row(){
+                 Button()
+                 Button()
+                 Button()
+                 Button()
+                 Button()
+                 Button()
+               }
 
+            }.scrollable(ScrollDirection.Horizontal)
+            .scrollBar(BarState.Off)
           }
 
         }
