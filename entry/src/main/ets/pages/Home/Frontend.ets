@@ -8,7 +8,8 @@ export function FrontendBuilder() {
 
 @Component
 struct Frontend {
+
   build() {
-    ExerciseComponent({text1:'前端知识点'})
+      ExerciseComponent({text1:'前端知识点'})
   }
 }

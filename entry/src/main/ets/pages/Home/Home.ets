@@ -1,3 +1,10 @@
+import { navStack } from '../../comments/router/NavigationService';
+
+interface PageParam {
+}
+
+const Param: PageParam = {}
+
 // 必须用 @Builder 暴露，供 route_map 引用
 @Builder
 export function HomeBuilder() {
@@ -6,31 +13,43 @@ export function HomeBuilder() {
 
 @Component
 export struct Home {
-  @Consume("navStack") pageStack: NavPathStack
   @State context:string[] =['HTML5','CSS','移动端布局','各种各样的知识','还能滑动吗','123','456','567']
+  @State bannerList:Resource[] = [$r('app.media.banner_ai'),$r('app.media.banner_pj'),$r('app.media.banner_qa')]
 
   build() {
     Column() {
-      Row({ space: 22 }) {
+      Row() {
         Stack({ alignContent: Alignment.Start }) {
           Image($r('app.media.ic_common_search'))
-            .width(20)
+            .width(16)
+            .margin({left:6})
 
           TextInput({ placeholder: '  请输入内容' })
             .width('90%')
-            .margin({ left: 18 })
+            .margin({left:6})
+
         }
-        .width('100%')
+        .width('90%')
 
         Image($r('app.media.home_sign'))
-          .width(10)
+          .width(24)
       }
       .width('100%')
 
-      Image($r('app.media.banner_pj'))
-        .width(360)
-        .borderRadius(14)
-        .margin({ top: 18 })
+      Swiper() {
+        ForEach(this.bannerList, (item:Resource) => {
+          Image(item)
+            .width(360)
+            .borderRadius(14)
+            .margin({ top: 18 })
+
+        })
+      }
+      .loop(true)
+      .autoPlay(true)
+      .indicator(true)
+      .height(180)
+      .padding({ top: 12 })
 
       Row() {
         Text('训练专区')
@@ -48,13 +67,13 @@ export struct Home {
         Image($r('app.media.ic_frontend'))
           .width(176)
           .onClick(() => {
-            this.pageStack.pushPathByName('Frontend', Param)
+            navStack.pushPath({name:'Frontend'})
           })
 
         Image($r('app.media.ic_hongmeng'))
           .width(176)
           .onClick(() => {
-            this.pageStack.pushPathByName('HarmonyOS', Param)
+            navStack.pushPath({name:'HarmonyOS'})
           })
 
       }.width('100%')

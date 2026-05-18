@@ -25,22 +25,27 @@
       "name": "HarmonyOS",
       "pageSourceFile": "src/main/ets/pages/Home/HarmonyOS.ets",
       "buildFunction": "HarmonyOSBuilder",
-      "data": { "desc": "鸿蒙" }
+      "data": { "desc": "鸿蒙","needLogin": "1" }
     },{
       "name": "Frontend",
       "pageSourceFile": "src/main/ets/pages/Home/Frontend.ets",
       "buildFunction": "FrontendBuilder",
-      "data": { "desc": "前端" }
+      "data": { "desc": "前端","needLogin": "1" }
     },{
       "name": "Login",
-      "pageSourceFile": "src/main/ets/pages/Login/Login.ets",
+      "pageSourceFile": "src/main/ets/pages/login/Login.ets",
       "buildFunction": "LoginBuilder",
-      "data": { "needLogin": "1" }
+      "data": { "desc": "登录" }
     },{
       "name": "Register",
-      "pageSourceFile": "src/main/ets/pages/Login/Register.ets",
+      "pageSourceFile": "src/main/ets/pages/login/Register.ets",
       "buildFunction": "RegisterBuilder",
       "data": { "desc": "注册" }
+    },{
+      "name": "apiTest",
+      "pageSourceFile": "src/main/ets/api/apiTest.ets",
+      "buildFunction": "apiTestBuilder",
+      "data": { "desc": "api接口测试" }
     }
   ]
 }

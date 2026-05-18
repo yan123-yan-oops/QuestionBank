@@ -1,21 +1,21 @@
 import { router } from '@kit.ArkUI';
+import { apiQuestionType } from '../api/HttpRequtsts';
 
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
-
   build() {
-    Column() {
-      Image($r('app.media.boot'))
-        .width(400)
-    }
 
-    .height('100%')
-    .width('100%')
-    .onClick(()=>{
-      router.pushUrl({url:'pages/TabsPage'})
-    })
+      Column() {
+        Image($r('app.media.boot'))
+          .width(400)
+      }
+      .height('100%')
+      .width('100%')
+      .onClick(()=>{
+        router.pushUrl({url:'pages/TabsPage'})
+      })
+
     // .linearGradient({
     //   direction: GradientDirection.Bottom,
     //   colors: [

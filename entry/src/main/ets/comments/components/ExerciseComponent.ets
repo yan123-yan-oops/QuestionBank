@@ -1,11 +1,37 @@
+import { AxiosError } from '@ohos/axios';
+import { apiQuestionList, apiQuestionType } from '../../api/HttpRequtsts';
+import { QuestionItem, QuestionType } from '../../model/Model';
+import { navStack } from '../router/NavigationService';
+import { QuestionListComponent } from './QuestionListComponent';
+
 @Component
 export struct ExerciseComponent {
-  @Consume("navStack") pageStack: NavPathStack
-  @Prop text1:string
+  @Prop text1: string
+  @State QT: QuestionType[] = []
+  @State questionItem: QuestionItem[] = [{
+    id: '',
+    stem: '', //题干
+    difficulty: 0, //难度
+    likeCount: 0, //点赞数
+    views: 0, //浏览数
+    readFlag: 0 //是否已看
+  }]
+
+  aboutToAppear(): void {
+    //请求数据
+    apiQuestionType().then((res) => {
+      this.QT = res
+    }).catch((err: AxiosError) => {
+      console.log('yan', '获取题目类型失败：' + JSON.stringify(err))
+    })
+
+    apiQuestionList(10).then((res) => {
+      this.questionItem = res.rows
+    })
+  }
+
   build() {
     NavDestination() {
-      //当使用 Navigation + pushPathByName + 系统路由表（ route_map.json ）跳转时，
-      //跳转到的目标页面 必须 使用 NavDestination 组件作为根容器。
       Column() {
 
         //上半部分
@@ -15,7 +41,7 @@ export struct ExerciseComponent {
             Image($r('app.media.ic_common_back'))
               .width(18)
               .onClick(() => {
-                this.pageStack.pop()
+                navStack.pop()
               })
 
             Text().width(200)
@@ -41,7 +67,8 @@ export struct ExerciseComponent {
             .justifyContent(FlexAlign.SpaceBetween)
             .alignItems(HorizontalAlign.Start)
 
-          }.width('100%')
+          }
+          .width('100%')
           .layoutWeight(1)
 
         }.width('100%')
@@ -49,22 +76,38 @@ export struct ExerciseComponent {
         .backgroundColor($r('app.color.common_main_color'))
 
         //下半部分
+        //按钮行
         Column() {
 
           Row() {
-            Scroll(){
-               Row(){
-                 Button()
-                 Button()
-                 Button()
-                 Button()
-                 Button()
-                 Button()
-               }
+            Scroll() {
+              Row() {
 
+                Button('全部')
+                  .backgroundColor(Color.White)
+                  .fontColor(Color.Black)
+                  .fontWeight(FontWeight.Normal)
+
+                ForEach(this.QT, (item: QuestionType) => {
+                  Button('' + item.name)
+                    .backgroundColor(Color.White)
+                    .fontColor(Color.Black)
+                }, (item: QuestionType) => '' + item.id)
+              }
             }.scrollable(ScrollDirection.Horizontal)
             .scrollBar(BarState.Off)
           }
+
+          //题目列表
+          Column() {
+            List() {
+              ForEach(this.questionItem, (item: QuestionItem) => {
+                ListItem() {
+                  QuestionListComponent({ item })
+                }
+              })
+            }
+          }.layoutWeight(1)
 
         }
         .borderRadius({ topLeft: 12, topRight: 12 })
@@ -75,5 +118,6 @@ export struct ExerciseComponent {
       .height('100%')
       .width('100%')
     }
+    .hideTitleBar(true)
   }
 }
