@@ -1,3 +1,4 @@
+import { navStack } from "../../comments/router/NavigationService";
 import { auth } from "../../comments/utils/Auth";
 import { LoginStateManager } from "../../comments/utils/LoginStateManagerUtil";
 
@@ -48,6 +49,9 @@ export struct Mine {
           Text('请先登录！')
             .fontWeight(FontWeight.Medium)
             .fontSize(24)
+            .onClick(()=>{
+              navStack.pushPathByName("Login",Param)
+            })
 
           Image($r('app.media.startIcon'))
             .width(50)

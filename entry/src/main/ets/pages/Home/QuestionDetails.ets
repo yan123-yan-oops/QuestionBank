@@ -61,17 +61,21 @@ export struct QuestionDetails {
             .onClick(() => { navStack.pop() })
           Text('题目详情').fontSize(26).fontWeight(FontWeight.Regular)
           Image($r('app.media.share')).fillColor(Color.Green).width(28)
+
         }.width('90%')
         .margin(10)
         .justifyContent(FlexAlign.SpaceBetween)
 
         Column(){
           Row(){
-            Text(this.stem)
-              .maxLines(1)
+            Text(this.currentItem.id  + '.' + this.stem)
+              .fontSize(22)
+              .fontWeight(FontWeight.Medium)
+              .maxLines(2)
               .textOverflow({overflow: TextOverflow.Ellipsis}) // 超出显示省略号...
           }.width('100%')
-          .justifyContent(FlexAlign.Start)
+
+          Blank()
 
           Row({space:10}){
             if (this.difficulty == 1) {
@@ -95,22 +99,26 @@ export struct QuestionDetails {
                   // apiOpt()
                 }},
                 {value:'点赞',action:()=>{}},
-                {value:'点我反馈',action:()=>{}},
+                {value:'点我反馈',action:()=>{
+                  navStack.pushPathByName( 'QuestionFeedBack' ,this.currentItem )
+                }},
                 {value:'试题分享',action:()=>{}}
               ])
 
           }.width('100%')
         }.width('90%')
+        .height(80)
 
-        Divider().height(50).color($r('app.color.common_gray_01'))
+        Divider().height(50).color($r('app.color.common_gray_01')).margin({top : -18})
 
         Row(){
           Text('答案:').fontWeight(FontWeight.Medium).fontSize(18)
         }.width('90%')
+        .margin({top : -10})
         .justifyContent(FlexAlign.Start)
 
         Column(){
-          RichText(`<div style="font-size: 58px; line-height: 1; padding-left:28px;">${this.answer}</div>`)
+          RichText(`<div style="font-size: 58px; line-height: 1; padding-left:38px;">${this.answer}</div>`)
             .width('100%')
             .layoutWeight(1)
 

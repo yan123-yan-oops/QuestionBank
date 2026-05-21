@@ -1,6 +1,7 @@
 import { httpClient } from "../comments/utils/HttpClient"
 import {
   ClockIn,
+  feedBackID,
   HasFlagIn,
   LoginParams,
   QuestionDetail,
@@ -90,3 +91,18 @@ export const apiOpt = (id: string, optType: number, type?: number): Promise<HasF
   // optType:number -- 1点赞2收藏 -- 必需
 }
 
+//反馈提交
+export const apiFeedBack = (questionId?:string,type?:Array<string>,feedBackInfo?:string): Promise<feedBackID> => {
+  return httpClient.request<feedBackID>({
+    method: 'post',
+    url: 'question/feedback',
+    data:{
+      questionId,
+      type,
+      feedBackInfo
+    }
+  })
+  //questionId:string -- 试题id -- 可选
+  //type:array[string] -- 可选 -- 反馈类型,数组，1内容不准确2、知识点不准确3题目重复4其他
+  //feedbackInfo:string -- 反馈记录 -- 可选
+}

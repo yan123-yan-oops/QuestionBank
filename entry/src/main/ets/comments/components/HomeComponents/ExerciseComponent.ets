@@ -41,10 +41,11 @@ export struct ExerciseComponent {
   build() {
     NavDestination() {
       Stack() {
-        Column() {
+        Column({space:10}) {
           Column({ space: 12 }) {
             Row() {
               Image($r('app.media.ic_common_back'))
+                .fillColor($r('app.color.diy_little_gray'))
                 .width(18)
                 .onClick(() => {
                   navStack.pop()
@@ -52,16 +53,16 @@ export struct ExerciseComponent {
 
               Blank().width(200)
 
-              TextInput({ placeholder: '搜索题目' })
+              TextInput({ placeholder: '搜索题目' }).fontColor($r('app.color.diy_little_gray'))
                 .height(32)
                 .onClick(() => {})
-            }
+            }.padding(12)
             .width('100%')
             .margin({ bottom: 2 })
 
             Row({ space: 12 }) {
               Image($r('app.media.project03'))
-                .width(64).height(82).borderRadius(12)
+                .width(64).height(90).borderRadius(12)
                 .margin({ left: 12 })
 
               Column() {
@@ -82,7 +83,7 @@ export struct ExerciseComponent {
           .margin({bottom:20})
 
           Column() {
-            Row() {
+            Row({space:12}) {
               Scroll() {
                 Row() {
                   Column() {

@@ -231,3 +231,12 @@ export interface targetPageInfo{
   pageParam:string
 }
 
+export interface errorType{
+  isClicked:boolean
+  name:string //错误标识
+  reason:string //错误内容
+}
+
+export interface feedBackID{
+  id:string //反馈返回id
+}

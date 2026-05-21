@@ -29,25 +29,23 @@ export struct Interview {
   }
 
   build() {
-    Column() {
+    Column({space:10}) {
       //搜索行
       Row() {
         Stack({ alignContent: Alignment.Start }) {
           Image($r('app.media.ic_common_search'))
             .width(16)
-            .margin({left:6})
+            .margin({left:10})
 
           TextInput({ placeholder: '  请输入内容' })
             .width('90%')
-            .margin({left:6})
+            .margin({left:10})
 
-        }
-        .width('90%')
+        }.width('90%')
 
         Image($r('app.media.home_sign'))
           .width(24)
-      }
-      .width('100%')
+      }.width('100%')
 
       Row(){
         Column(){
@@ -127,8 +125,6 @@ export struct Interview {
         })
       }
       .layoutWeight(1)
-
-
 
     }
     .height('100%')

@@ -56,6 +56,11 @@
       "pageSourceFile": "src/main/ets/pages/Home/QuestionDetails.ets",
       "buildFunction": "QuestionDetailsBuilder",
       "data": { "desc": "试题详情页面" }
+    },{
+      "name": "QuestionFeedBack",
+      "pageSourceFile": "src/main/ets/pages/Home/QuestionFeedBack.ets",
+      "buildFunction": "QuestionFeedBackBuilder",
+      "data": { "desc": "反馈页面" }
     }
   ]
 }
