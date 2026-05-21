@@ -1,10 +1,9 @@
 import { Home } from './Home/Home'
-import { apiTest } from '../api/apiTest'
 import { Interview } from './Interview/Interview'
 import { Mine } from './Mine/Mine'
 import { Project } from './Project/Project'
-import { setupRouterInterceptor } from '../comments/router/RouterInterceptor';
 import { navStack } from '../comments/router/NavigationService';
+import { setupRouterInterceptor } from '../comments/router/RouterInterceptor';
 
 @Entry
 @Component
@@ -34,7 +33,7 @@ struct TabsPage {
           index: this.currentIndex
         }) {
           TabContent() {
-            // apiTest()
+            //apiTest() //测试专用
             Home()
           }.tabBar(this.currentIndex == 0 ? this.BarsType($r('app.media.tabbar_home_fill'), '首页') :
             this.BarsType($r('app.media.tabbar_home'), '首页'))

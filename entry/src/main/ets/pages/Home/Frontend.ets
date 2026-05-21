@@ -1,4 +1,4 @@
-import { ExerciseComponent } from "../../comments/components/ExerciseComponent"
+import { ExerciseComponent } from "../../comments/components/HomeComponents/ExerciseComponent"
 
 //导航入口
 @Builder

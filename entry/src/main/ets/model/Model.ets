@@ -45,12 +45,12 @@ export interface QuestionItem{
   readFlag:0|1 //是否已看
 }
 
-export interface QuestionDetail extends QuestionItem {
-  answer:string
-  stage:string[]
-  likeFlag:0|1  //是否点赞
-  collectFlag:0|1 //是否收藏
-}
+// export interface QuestionDetail extends QuestionItem {
+//   answer:string
+//   stage:string[]
+//   likeFlag:0|1  //是否点赞
+//   collectFlag:0|1 //是否收藏
+// }
 export interface QuestionPageParams {
   item:QuestionItem
   list:QuestionItem[]
@@ -104,7 +104,10 @@ export class AppUser{
   @Type(UserClass)
   @Trace user:UserClass = new UserClass()
 }
-
+export interface InterviewDetailParams{
+  id:string//题目id，用来请求细节的网络请求
+  stem:string//题干
+}
 export interface LoginParams{
   username:string
   password:string
@@ -132,11 +135,27 @@ export interface WordItem {
 
 export type Words = Record<string,WordItem[]>
 
+//检查状态接口
+export interface HasFlagIn{
+  flag:boolean
+}
 
 export interface ClockInItem {
   id:string
   createdAt:string
 }
+
+export interface ClockIn{
+  nickName:string//昵称
+  avatar:string//头像
+  miniAppPicture:string //小程序二维码
+  miniAppName:string //小程序名
+  miniAppLogo:string //小程序Logo
+  clockinNumbers:number//连续打卡的天数
+  clockinTotal:number//打卡总天数
+
+}
+
 export interface ClockInfo {
   flag:boolean
   clockinNumbers:number
@@ -181,10 +200,34 @@ export interface StudyTimeData{
 
 
 
+// 试题/面经详情类型
+export interface QuestionDetail {
+  id: string
+  stem: string        // 标题
+  content: string     // 面经详情（富文本）
+  answer:string       // 试题详情（富文本）
+  difficulty: number
+  stage:string
+  collectFlag:number
+  likeFlag:number
+  views: number
+  likeCount: number
+  questionBankType:number
+  creatorName:string
+  creatorAvatar:string
+  createdAt:string
+  readFlag: number
+}
 
+//面经传参接口
+export interface InterviewDetailParam {
+  id: string
+  stem: string
+}
 
 
 export interface targetPageInfo{
   pageName:string
   pageParam:string
 }
+

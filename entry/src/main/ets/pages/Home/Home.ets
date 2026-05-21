@@ -1,9 +1,10 @@
-import { navStack } from '../../comments/router/NavigationService';
-
-interface PageParam {
-}
-
-const Param: PageParam = {}
+import { AxiosError } from '@ohos/axios';
+import { apiHasClockIn } from '../../api/HttpRequtsts';
+import { HomeBanner } from '../../comments/components/HomeComponents/HomeBuilder/HomeBanner';
+import { HomeFunction } from '../../comments/components/HomeComponents/HomeBuilder/HomeFunction';
+import { HomeHeader } from '../../comments/components/HomeComponents/HomeBuilder/HomeHeader';
+import { auth } from '../../comments/utils/Auth';
+import { ClockIn, HasFlagIn} from '../../model/Model';
 
 // 必须用 @Builder 暴露，供 route_map 引用
 @Builder
@@ -13,148 +14,62 @@ export function HomeBuilder() {
 
 @Component
 export struct Home {
-  @State context:string[] =['HTML5','CSS','移动端布局','各种各样的知识','还能滑动吗','123','456','567']
-  @State bannerList:Resource[] = [$r('app.media.banner_ai'),$r('app.media.banner_pj'),$r('app.media.banner_qa')]
+  @State context: string[] = ['HTML5', 'CSS', '移动端布局', '各种各样的知识', '还能滑动吗', 'VUE', '456', '567']
+  @State bannerList: Resource[] = [$r('app.media.banner_ai'), $r('app.media.banner_pj'), $r('app.media.banner_qa')]
+  @State isClock: boolean = false
+  //监听登录状态是否发生变化，如果变化就获取打卡信息
+  @StorageProp('isLogin') @Watch('onLoginStateChange') isLogin: boolean = false
+  @State ClockInDetails: ClockIn = {
+    nickName: '',
+    avatar: '',
+    miniAppPicture:'', //小程序二维码
+    clockinNumbers: 0,
+    clockinTotal: 0,
+    miniAppName:'', //小程序名
+    miniAppLogo:''//小程序Logo
+  }
+
+  aboutToAppear(): void {
+    this.fetchClockInStatus()
+  }
+
+  onLoginStateChange(): void {
+    if (this.isLogin) {
+      this.fetchClockInStatus()
+    }
+  }
+
+  fetchClockInStatus(): void {
+    if (!auth.getUser().token) {
+      console.log('yan', '用户未登录，跳过打卡状态获取')
+      return
+    }
+
+    // apiClockIn().then((res: ClockIn) => {
+    //   this.ClockInDetails = res
+    //   console.log('yan','获取打卡信息成功:' + JSON.stringify(res))
+    // }).catch((err:AxiosError)=>{
+    //   console.log('yan','获取打卡信息错误码:' + err.code)
+    //   console.log('yan','获取打卡信息错误信息' + err.message);
+    // })
+
+    apiHasClockIn().then((res: HasFlagIn) => {
+      this.isClock = res.flag
+      console.log('yan', '获取打卡状态成功：' + JSON.stringify(res))
+    }).catch((err: AxiosError) => {
+      console.log('yan', '获取打卡状态错误码：' + err.code)
+      console.log('yan', '获取打卡状态错误信息：' + err.message)
+    })
+  }
 
   build() {
     Column() {
-      Row() {
-        Stack({ alignContent: Alignment.Start }) {
-          Image($r('app.media.ic_common_search'))
-            .width(16)
-            .margin({left:6})
+      //顶行
+      HomeHeader({isClock:this.isClock,ClockInDetails:this.ClockInDetails})
+      //轮播图
+      HomeBanner({bannerList:this.bannerList})
 
-          TextInput({ placeholder: '  请输入内容' })
-            .width('90%')
-            .margin({left:6})
-
-        }
-        .width('90%')
-
-        Image($r('app.media.home_sign'))
-          .width(24)
-      }
-      .width('100%')
-
-      Swiper() {
-        ForEach(this.bannerList, (item:Resource) => {
-          Image(item)
-            .width(360)
-            .borderRadius(14)
-            .margin({ top: 18 })
-
-        })
-      }
-      .loop(true)
-      .autoPlay(true)
-      .indicator(true)
-      .height(180)
-      .padding({ top: 12 })
-
-      Row() {
-        Text('训练专区')
-          .fontWeight(FontWeight.Bold)
-          .fontSize(28)
-          .margin({ left: 18 })
-
-        Blank()
-      }
-      .width('100%')
-
-      //训练专区行
-      Row() {
-
-        Image($r('app.media.ic_frontend'))
-          .width(176)
-          .onClick(() => {
-            navStack.pushPath({name:'Frontend'})
-          })
-
-        Image($r('app.media.ic_hongmeng'))
-          .width(176)
-          .onClick(() => {
-            navStack.pushPath({name:'HarmonyOS'})
-          })
-
-      }.width('100%')
-      .justifyContent(FlexAlign.SpaceEvenly)
-      .margin({ top: 12, left: 20, right: 20 })
-
-      //辅助工具行
-      Row() {
-        Text('辅助工具')
-          .fontSize(28)
-          .fontWeight(FontWeight.Bold)
-
-        Blank()
-      }.width('100%')
-      .margin({ top: 18, left: 18 })
-
-      Row({ space: 10 }) {
-        Row({ space: 8 }) {
-          Text('小面AI')
-            .fontSize(16)
-
-          Image($r('app.media.home_aiPic'))
-            .width(28)
-
-        }.width(176)
-        .borderRadius(12)
-        .justifyContent(FlexAlign.SpaceAround)
-        .height('68')
-        .backgroundColor($r('app.color.diy_little_gray'))
-
-        Row({ space: 8 }) {
-          Text('前端常用词')
-            .fontSize(16)
-
-          Image($r('app.media.home_frontendPic'))
-            .width(28)
-        }.width(176)
-        .justifyContent(FlexAlign.SpaceAround)
-        .borderRadius(12)
-        .height('68')
-        .backgroundColor($r('app.color.diy_little_gray'))
-
-      }.width("100%")
-      .justifyContent(FlexAlign.SpaceEvenly)
-      .margin({ top: 12, left: 20, right: 20 })
-
-      Row() {
-        Text('知识点学习')
-          .fontSize(28)
-          .fontWeight(FontWeight.Bold)
-
-        Blank()
-      }.width('100%')
-      .margin({ top: 18, left: 18 })
-
-      List() {
-          ForEach( this.context , (item:string)=>{
-            ListItem(){
-              Row(){
-
-                Text(item)
-                  .fontSize(20)
-                  .fontStyle(FontStyle.Italic)
-                  .fontWeight(FontWeight.Normal)
-
-                Blank()
-
-                Image($r('app.media.arrow_right'))
-                  .width(20)
-                  .colorFilter(Color.White)
-
-              }.width('100%')
-              .height(38)
-              .borderRadius(12)
-              .margin({top : 10})
-              .backgroundColor($r('app.color.diy_little_gray'))
-            }
-          })
-      }.margin({top:18,left:20,right:20})
-      .width('360')
-      .layoutWeight(1)
+      HomeFunction({context:this.context})
 
     }
     .height('100%')

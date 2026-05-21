@@ -2,41 +2,16 @@ import axios, { AxiosError, AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse, InternalAxiosRequestConfig } from "@ohos/axios"
 import { auth } from "./Auth";
-import { promptAction } from "@kit.ArkUI";
+import { promptAction, Type } from "@kit.ArkUI";
 import { navStack, EmptyParam } from '../router/NavigationService';
 import { UserClass } from "../../model/Model";
-
-//  原始方法
-// export class AxiosRequestUtil{
-//   getAxiosRequest(url:string,params?:object){
-//     axios.get(url,{params})
-//       .then((res:object)=>{
-//         console.log('yan','GET请求成功，返回参数：'+res);
-//         return res
-//       })
-//       .catch((err:string)=>{
-//         AlertDialog.show({message:err+''})
-//       })
-//   }
-//
-//
-//   postAxiosRequest(url:string,data:object){
-//     axios.post(url,data)
-//       .then((res:object)=>{
-//         console.log('yan','GET请求成功，返回参数：'+res);
-//         return res
-//       })
-//       .catch((err:string)=>{
-//         AlertDialog.show({message:err+''})
-//       })
-//   }
-// }
 
 export const baseURL = 'https://api-harmony-teach.itheima.net/hm/'
 
 const axiosInstance : AxiosInstance = axios.create({
   baseURL
   ,timeout:10000
+  ,headers:{'Content-Type':'application/json'}//只保留这个
 })
 
 axiosInstance.request({
@@ -50,9 +25,8 @@ axiosInstance.request({
 axiosInstance.interceptors.request.use((config:InternalAxiosRequestConfig)=>{
   const user = auth.getUser()
   if(user.token){
-    config.headers.Authorization = `Bearer ${user.token}`//传此时的用户token
+    config.headers.Authorization = `Bearer ${user.token}`
   }
-
   return config
 },(err:AxiosError)=>{
   return Promise.reject(err)

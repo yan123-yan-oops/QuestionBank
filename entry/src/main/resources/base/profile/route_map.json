@@ -4,7 +4,7 @@
       "name": "Home",
       "pageSourceFile": "src/main/ets/pages/Home/Home.ets",
       "buildFunction": "HomeBuilder",
-      "data": { "desc": "首页" }
+      "data": { "desc": "首页","needLogin": "1" }
     },
     {
       "name": "InterviewPage",
@@ -42,10 +42,20 @@
       "buildFunction": "RegisterBuilder",
       "data": { "desc": "注册" }
     },{
-      "name": "apiTest",
-      "pageSourceFile": "src/main/ets/api/apiTest.ets",
-      "buildFunction": "apiTestBuilder",
-      "data": { "desc": "api接口测试" }
+      "name": "InterviewDetails",
+      "pageSourceFile": "src/main/ets/pages/Interview/InterviewDetails.ets",
+      "buildFunction": "InterviewDetailsBuilder",
+      "data": { "desc": "面经详情页面" }
+    },{
+      "name": "ClockInfoDetails",
+      "pageSourceFile": "src/main/ets/pages/Home/ClockInfoDetails.ets",
+      "buildFunction": "ClockInfoDetailsBuilder",
+      "data": { "desc": "打卡详情页面" }
+    },{
+      "name": "QuestionDetails",
+      "pageSourceFile": "src/main/ets/pages/Home/QuestionDetails.ets",
+      "buildFunction": "QuestionDetailsBuilder",
+      "data": { "desc": "试题详情页面" }
     }
   ]
 }

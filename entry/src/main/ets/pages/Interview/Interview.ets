@@ -1,24 +1,32 @@
+import { apiQuestionList } from "../../api/HttpRequtsts"
+import { navStack } from "../../comments/router/NavigationService"
+import { QuestionItem ,InterviewDetailParam} from "../../model/Model"
 
 @Builder
 export function InterviewBuilder() {
   Interview()
 }
 
-export interface interviewListItem{
-  title:string
-  commentContext:string
-  likeCount:number
-  lookCount:number
-}
 
 @Component
 export struct Interview {
   @State clickIndex: '最新'|'推荐' = '最新'
- @State InterviewList:interviewListItem[] = [{title:'21美团3面经验总结',
-   commentContext:'挨打的那我i腐败俄方败坏了我发发吧无尽你',
-   likeCount:99,
-   lookCount:99999}]
+  @State questionItem: QuestionItem[] = [{
+    id: '',
+    stem: '', //题干
+    difficulty: 0, //难度
+    likeCount: 0, //点赞数
+    views: 0, //浏览数
+    readFlag: 0 //是否已看
+  }]
 
+  aboutToAppear(): void {
+    apiQuestionList(9).then((res)=>{
+      this.questionItem = res.rows //rows数组
+    })
+
+
+  }
 
   build() {
     Column() {
@@ -85,33 +93,40 @@ export struct Interview {
         })
       }
 
-      List(){
-        ListItem(){
-          Column(){
-            ForEach(this.InterviewList,(item:interviewListItem)=>{
-              Column(){
-                Row(){
-                  Image($r('app.media.ic_interview_logo'))
-                    .width('18')
-
-                  Text('  面经 | '+item.title)
-                }
-
-                Text(item.commentContext).fontWeight(FontWeight.Normal).fontColor($r('app.color.common_gray_01')).fontSize(16)
-
-                Row(){
-                  Text('点赞' + item.likeCount + "|" + '浏览' + item.lookCount + '|' )
-                  Image($r('app.media.icon')).width('10')
-                }
+      List() {
+        ForEach(this.questionItem, (item: QuestionItem) => {
+          ListItem() {
+            Column() {
+              Row() {
+                Image($r('app.media.ic_interview_logo'))
+                  .width(18)
+                Text('  面经 | ' + item.stem)
+                  .fontSize(16)
+                  .fontWeight(FontWeight.Bold)
               }
-            })
-          }.layoutWeight(1)
+              .width('100%')
 
-        }
+              Row() {
+                Text(`点赞 ${item.likeCount} | 浏览 ${item.views} | `)
+                  .fontColor($r('app.color.common_gray_01'))
+                  .fontSize(14)
+                Image($r('app.media.share')).width(20)
+              }
+              .margin({ top: 8 })
+            }
+            .width('100%')
+            .margin(10)
+            .alignItems(HorizontalAlign.Start)
 
-      }.layoutWeight(1)
-
-
+          }.onClick(()=>{
+            const param:InterviewDetailParam  = {id:'',stem:''}
+            param.id = item.id
+            param.stem = item.stem
+            navStack.pushPathByName('InterviewDetails', param)
+          })
+        })
+      }
+      .layoutWeight(1)
 
 
 

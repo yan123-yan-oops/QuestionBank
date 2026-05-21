@@ -1,4 +1,4 @@
-import { ExerciseComponent } from "../../comments/components/ExerciseComponent"
+import { ExerciseComponent } from "../../comments/components/HomeComponents/ExerciseComponent"
 
 @Builder
 export function HarmonyOSBuilder() {
