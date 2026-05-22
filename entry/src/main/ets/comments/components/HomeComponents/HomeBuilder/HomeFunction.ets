@@ -1,12 +1,22 @@
+import { apiQuestionType } from "../../../../api/HttpRequtsts"
+import { QuestionType } from "../../../../model/Model"
 import { navStack } from "../../../router/NavigationService"
 
 @Component
 export struct HomeFunction {
-  @Prop context: string[]
+  @State QT: string[] = []
   @State toolList: ToolItem[] = [
     { name: '小面AI', icon: $r('app.media.home_aiPic') },
     { name: '前端常用词', icon: $r('app.media.home_frontendPic') }
   ]
+
+  aboutToAppear(): void {
+    apiQuestionType().then((item:QuestionType[])=>{
+      for (let i = 0; i < item.length; i++) {
+        this.QT[i] = item[i].name
+      }
+    })
+  }
 
   build() {
     Column() {
@@ -20,7 +30,6 @@ export struct HomeFunction {
       this.knowledgeList()
     }
     .width('100%')
-    .height('100%')
   }
 
   @Builder
@@ -75,7 +84,7 @@ export struct HomeFunction {
   @Builder
   knowledgeList() {
     List() {
-      ForEach(this.context, (item: string) => {
+      ForEach(this.QT, (item: string) => {
         ListItem() {
           Row() {
             Text(item)
@@ -92,10 +101,12 @@ export struct HomeFunction {
           .borderRadius(12)
           .margin({ top: 10 })
           .backgroundColor($r('app.color.diy_little_gray'))
+          .onClick(()=>{
+            navStack.pushPath({ name: 'Frontend' })
+          })
         }
       })
-    }
-    .margin({ top: 18, left: 20, right: 20 })
+    }.margin({ top: 18, left: 20, right: 20 })
     .width('360')
     .layoutWeight(1)
   }

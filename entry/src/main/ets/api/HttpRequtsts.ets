@@ -7,6 +7,7 @@ import {
   QuestionDetail,
   QuestionItem,
   QuestionListResult,
+  QuestionRecommends,
   QuestionType,
   UserClass
 } from "../model/Model"
@@ -51,13 +52,22 @@ export const apiQuestionList = (questionBankType: number, page?: number, pageSiz
   })
 }
 
-//面经的详细内容
+//面经的推荐内容
+export const apiQuestionRecommends = (): Promise<QuestionRecommends> => {
+  return httpClient.request<QuestionRecommends>({
+    method: 'get',
+    url: 'question/recommends'
+  })
+}
+
+//试题/面经的详细内容
 export const apiQuestionDetails = (id: string): Promise<QuestionDetail> => {
   return httpClient.request<QuestionDetail>({
     method: 'get',
     url: `question/${id}`
   })
 }
+
 
 //首页检查是否打卡接口
 export const apiHasClockIn = (): Promise<HasFlagIn> => {

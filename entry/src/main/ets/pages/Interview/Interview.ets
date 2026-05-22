@@ -1,17 +1,17 @@
-import { apiQuestionList } from "../../api/HttpRequtsts"
+import { AxiosError } from "@ohos/axios"
+import { apiQuestionList, apiQuestionRecommends } from "../../api/HttpRequtsts"
 import { navStack } from "../../comments/router/NavigationService"
-import { QuestionItem ,InterviewDetailParam} from "../../model/Model"
+import { QuestionItem, InterviewDetailParam, QuestionRecommendsDetail } from "../../model/Model"
 
 @Builder
 export function InterviewBuilder() {
   Interview()
 }
 
-
 @Component
 export struct Interview {
   @State clickIndex: '最新'|'推荐' = '最新'
-  @State questionItem: QuestionItem[] = [{
+  @State newQuestionItem: QuestionItem[] = [{
     id: '',
     stem: '', //题干
     difficulty: 0, //难度
@@ -19,13 +19,37 @@ export struct Interview {
     views: 0, //浏览数
     readFlag: 0 //是否已看
   }]
+  @State recommendQuestionItem: QuestionRecommendsDetail[] = []
+  @StorageProp('isLogin') @Watch('onLoginStateChange') isLogin: boolean = false
 
   aboutToAppear(): void {
+
+    this.loadData()
+  }
+
+  onLoginStateChange(): void {
+    if (this.isLogin) {
+      this.loadData()
+    }
+  }//回调，在检测到登录后再用
+
+  loadData(): void {
     apiQuestionList(9).then((res)=>{
-      this.questionItem = res.rows //rows数组
+      this.newQuestionItem = res.rows
+      console.log('yan','成功获取到最新面经列表:' + this.newQuestionItem[0].id);
+    }).catch((err:AxiosError)=>{
+      console.log('yan','获取面经最新列表失败' + err);
+      console.log('yan','获取面经最新列表错误码' + err.code);
+      console.log('yan','获取面经最新列表详细信息' + err.message);
     })
 
-
+    apiQuestionRecommends().then((res)=> {
+      this.recommendQuestionItem = res.rows
+      console.log('yan','成功获取到推荐面经列表:' + JSON.stringify(res));
+    }).catch((err:AxiosError)=>{
+      console.log('yan','获取面经推荐列表失败' + err);
+      console.log('yan','获取面经推荐列表错误码' + err.code);
+    })
   }
 
   build() {
@@ -61,7 +85,7 @@ export struct Interview {
             Divider()
               .strokeWidth(2)
               .color('#0078FF')
-              .width('50%') // 宽度只占文字一半，不铺满
+              .width('50%')
               .margin({ top: 4 });
           }
         }.width('50%')
@@ -82,7 +106,7 @@ export struct Interview {
             Divider()
               .strokeWidth(2)
               .color('#0078FF')
-              .width('50%') // 宽度只占文字一半，不铺满
+              .width('50%')
               .margin({ top: 4 });
           }
         }.width('50%')
@@ -92,42 +116,69 @@ export struct Interview {
       }
 
       List() {
-        ForEach(this.questionItem, (item: QuestionItem) => {
-          ListItem() {
-            Column() {
-              Row() {
-                Image($r('app.media.ic_interview_logo'))
-                  .width(18)
-                Text('  面经 | ' + item.stem)
-                  .fontSize(16)
-                  .fontWeight(FontWeight.Bold)
-              }
-              .width('100%')
-
-              Row() {
-                Text(`点赞 ${item.likeCount} | 浏览 ${item.views} | `)
-                  .fontColor($r('app.color.common_gray_01'))
-                  .fontSize(14)
-                Image($r('app.media.share')).width(20)
-              }
-              .margin({ top: 8 })
-            }
-            .width('100%')
-            .margin(10)
-            .alignItems(HorizontalAlign.Start)
-
-          }.onClick(()=>{
-            const param:InterviewDetailParam  = {id:'',stem:''}
-            param.id = item.id
-            param.stem = item.stem
-            navStack.pushPathByName('InterviewDetails', param)
+        if (this.clickIndex == '最新') {
+          ForEach(this.newQuestionItem, (item: QuestionItem) => {
+            ListItem() {
+              this.renderItem(item)
+            }.onClick(() => {
+              const param: InterviewDetailParam = { id: item.id, stem: item.stem }
+              navStack.pushPathByName('InterviewDetails', param)
+            })
           })
-        })
+        } else {
+          ForEach(this.recommendQuestionItem, (item: QuestionRecommendsDetail) => {
+            ListItem() {
+              this.renderRecommendItem(item)
+            }.onClick(() => {
+              const param: InterviewDetailParam = { id: String(item.id), stem: item.stem }
+              navStack.pushPathByName('InterviewDetails', param)
+            })
+          })
+        }
       }
       .layoutWeight(1)
 
     }
     .height('100%')
     .width('100%')
+  }
+  // 最新面经 Item
+  @Builder
+  renderItem(item: QuestionItem) {
+    Column() {
+      Row() {
+        Image($r('app.media.ic_interview_logo')).width(18)
+        Text('  面经 | ' + item.stem).fontSize(16).fontWeight(FontWeight.Bold)
+      }
+      Row() {
+        Text(`点赞 ${item.likeCount} | 浏览 ${item.views} | `)
+          .fontColor($r('app.color.common_gray_01'))
+          .fontSize(14)
+        Image($r('app.media.share')).width(20)
+      }
+    }
+    .width('100%')
+    .margin(10)
+    .alignItems(HorizontalAlign.Start)
+  }
+
+  // 推荐面经 Item（字段完全兼容，所以可以一样）
+  @Builder
+  renderRecommendItem(item: QuestionRecommendsDetail) {
+    Column() {
+      Row() {
+        Image($r('app.media.ic_interview_logo')).width(18)
+        Text('  面经 | ' + item.stem).fontSize(16).fontWeight(FontWeight.Bold)
+      }
+      Row() {
+        Text(`点赞 ${item.likeCount} | 浏览 ${item.views} | `)
+          .fontColor($r('app.color.common_gray_01'))
+          .fontSize(14)
+        Image($r('app.media.share')).width(20)
+      }
+    }
+    .width('100%')
+    .margin(10)
+    .alignItems(HorizontalAlign.Start)
   }
 }

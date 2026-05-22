@@ -198,7 +198,11 @@ export interface StudyTimeData{
   studyData:StudyTimeCate[]
 }
 
-
+//面经推荐列表第一层
+export interface QuestionRecommends{
+  pageTotal:number
+  rows:QuestionRecommendsDetail[]
+}
 
 // 试题/面经详情类型
 export interface QuestionDetail {
@@ -219,6 +223,23 @@ export interface QuestionDetail {
   readFlag: number
 }
 
+// 面经详情类型
+export interface QuestionRecommendsDetail {
+  id: number
+  questionBankType: number
+  questionNo: string
+  stem: string            // 题目标题/面经标题
+  content: string         // 面经详情内容
+  subjectName: string     // 分类名称
+  questionType: number
+  difficulty: number      // 难度
+  views: number           // 浏览量
+  likeCount: number       // 点赞数
+  likeFlag: number        // 是否点赞 0=未点赞 1=已点赞
+  creatorName: string     // 创建人名字
+  creatorAvatar: string   // 创建人头像
+  createdAt: string       // 创建时间
+}
 //面经传参接口
 export interface InterviewDetailParam {
   id: string
@@ -239,4 +260,10 @@ export interface errorType{
 
 export interface feedBackID{
   id:string //反馈返回id
+}
+
+//提示词组件
+export interface PromptItem{
+  prompt:string
+  annotation:string
 }

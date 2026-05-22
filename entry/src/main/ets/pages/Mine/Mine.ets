@@ -12,7 +12,7 @@ export struct Mine {
   @StorageProp('isLogin') @Watch('onLoginStateChange') isLogin: boolean = false
   @State userName: string = '';
   @State avatar: ResourceStr = ''
-  @State settingTitle:string[] = ['推荐分享','意见反馈','关于我们']
+  @State settingTitle:string[] = ['推荐分享','意见反馈','关于我们','开发提示词']
 
   aboutToAppear(): void {
     this.loadUserInfo()
@@ -122,6 +122,11 @@ export struct Mine {
             Image($r('app.media.arrow_right')).width(20).fillColor($r('app.color.common_gray_01'))
           }.width('100%')
           .justifyContent(FlexAlign.SpaceBetween)
+          .onClick(()=>{
+            if(item=='开发提示词'){
+              navStack.pushPathByName('DevPrompt',Param)
+            }
+          })
         })
 
       }.width('86%')

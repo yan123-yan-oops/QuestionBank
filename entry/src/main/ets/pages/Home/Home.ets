@@ -14,7 +14,6 @@ export function HomeBuilder() {
 
 @Component
 export struct Home {
-  @State context: string[] = ['HTML5', 'CSS', '移动端布局', '各种各样的知识', '还能滑动吗', 'VUE', '456', '567']
   @State bannerList: Resource[] = [$r('app.media.banner_ai'), $r('app.media.banner_pj'), $r('app.media.banner_qa')]
   @State isClock: boolean = false
   //监听登录状态是否发生变化，如果变化就获取打卡信息
@@ -69,7 +68,7 @@ export struct Home {
       //轮播图
       HomeBanner({bannerList:this.bannerList})
 
-      HomeFunction({context:this.context})
+      HomeFunction().layoutWeight(1)
 
     }
     .height('100%')

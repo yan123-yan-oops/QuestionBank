@@ -19,6 +19,8 @@ export struct QuestionDetails {
   @State answer: string = ''
   @State stage: string = ''
   @State difficulty: number = 0
+  @State preCantClick :ResourceColor = $r('app.color.black')
+  @State nextCantClick :ResourceColor = $r('app.color.black')
 
   aboutToAppear(): void {
   }
@@ -42,6 +44,10 @@ export struct QuestionDetails {
       this.currentIndex--
       this.currentItem = this.questionList[this.currentIndex]
       this.loadQuestionDetail(this.currentItem.id)
+      this.preCantClick = $r('app.color.black')
+      this.nextCantClick = $r('app.color.black')
+    }else {
+      this.preCantClick = $r('app.color.common_gray_01')
     }
   }
 
@@ -50,6 +56,10 @@ export struct QuestionDetails {
       this.currentIndex++
       this.currentItem = this.questionList[this.currentIndex]
       this.loadQuestionDetail(this.currentItem.id)
+      this.preCantClick = $r('app.color.black')
+      this.nextCantClick = $r('app.color.black')
+    }else {
+      this.nextCantClick = $r('app.color.common_gray_01')
     }
   }
 
@@ -68,7 +78,7 @@ export struct QuestionDetails {
 
         Column(){
           Row(){
-            Text(this.currentItem.id  + '.' + this.stem)
+            Text( this.stem)
               .fontSize(22)
               .fontWeight(FontWeight.Medium)
               .maxLines(2)
@@ -112,7 +122,7 @@ export struct QuestionDetails {
         Divider().height(50).color($r('app.color.common_gray_01')).margin({top : -18})
 
         Row(){
-          Text('答案:').fontWeight(FontWeight.Medium).fontSize(18)
+          Text('答案:').fontWeight(FontWeight.Bold).fontSize(22)
         }.width('90%')
         .margin({top : -10})
         .justifyContent(FlexAlign.Start)
@@ -129,8 +139,8 @@ export struct QuestionDetails {
 
         Row({space:18}){
           Row() {
-            Image($r('app.media.ic_common_back')).fillColor($r('app.color.common_gray_01')).width('20')
-            Text('上一题')
+            Image($r('app.media.ic_common_back')).fillColor(this.preCantClick).width('20')
+            Text('上一题').fontColor(this.preCantClick)
           }.onClick(() => {
             this.prevQuestion()
           })
@@ -138,8 +148,8 @@ export struct QuestionDetails {
           Divider().width(10).vertical(true).height(24)
 
           Row() {
-            Text('下一题')
-            Image($r('app.media.arrow_right')).fillColor($r('app.color.common_gray_01')).width('20')
+            Text('下一题').fontColor(this.nextCantClick)
+            Image($r('app.media.arrow_right')).fillColor(this.nextCantClick).width('20')
           }.onClick(() => {
             this.nextQuestion()
           })

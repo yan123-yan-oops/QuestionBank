@@ -135,7 +135,7 @@ export struct Login {
             })
         }
 
-      }.width('100%')
+      }.width('90%')
       .height('100%')
 
     }.hideTitleBar(true)
