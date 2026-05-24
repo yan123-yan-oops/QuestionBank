@@ -1,26 +1,10 @@
 {
   "routerMap": [
     {
-      "name": "Home",
-      "pageSourceFile": "src/main/ets/pages/Home/Home.ets",
-      "buildFunction": "HomeBuilder",
-      "data": { "desc": "首页","needLogin": "1" }
-    },
-    {
-      "name": "Interview",
-      "pageSourceFile": "src/main/ets/pages/Interview/Interview.ets",
-      "buildFunction": "InterviewBuilder",
-      "data": { "desc": "面经" ,"needLogin": "1" }
-    },{
-      "name": "Project",
-      "pageSourceFile": "src/main/ets/pages/Project/Project.ets",
-      "buildFunction": "ProjectBuilder",
-      "data": { "desc": "项目" }
-    },{
-      "name": "Mine",
-      "pageSourceFile": "src/main/ets/pages/Mine/Mine.ets",
-      "buildFunction": "MineBuilder",
-      "data": { "desc": "我的" }
+      "name": "TabsPage",
+      "pageSourceFile": "src/main/ets/pages/TabsPage.ets",
+      "buildFunction": "TabsPageBuilder",
+      "data": { "desc": "主导航页面" }
     },{
       "name": "HarmonyOS",
       "pageSourceFile": "src/main/ets/pages/Home/HarmonyOS.ets",
@@ -37,18 +21,13 @@
       "buildFunction": "LoginBuilder",
       "data": { "desc": "登录" }
     },{
-      "name": "Register",
-      "pageSourceFile": "src/main/ets/pages/login/Register.ets",
-      "buildFunction": "RegisterBuilder",
-      "data": { "desc": "注册" , "note" : "功能未开发" }
-    },{
       "name": "InterviewDetails",
       "pageSourceFile": "src/main/ets/pages/Interview/InterviewDetails.ets",
       "buildFunction": "InterviewDetailsBuilder",
       "data": { "desc": "面经详情页面" }
     },{
       "name": "ClockInfoDetails",
-      "pageSourceFile": "src/main/ets/pages/Home/ClockInfoDetails.ets",
+      "pageSourceFile": "src/main/ets/pages/Mine/ClockInfoDetails.ets",
       "buildFunction": "ClockInfoDetailsBuilder",
       "data": { "desc": "打卡详情页面" }
     },{

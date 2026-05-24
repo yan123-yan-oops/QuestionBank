@@ -37,10 +37,6 @@ export struct HomeHeader {
             Text('连续打卡' + auth.getUser().clockinNumbers + '天').fontSize(12)
           }
         }.margin({left:-10})
-        .onClick(() => {
-          navStack.pushPathByName("ClockInfoDetails",this.ClockInDetails)
-          // console.log('yan','加载数据：'+this.ClockInDetails.nickName);
-        })
 
       }.width('96%')
       .margin({left:10,right:10})

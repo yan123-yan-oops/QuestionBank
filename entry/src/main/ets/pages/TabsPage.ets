@@ -2,17 +2,15 @@ import { Home } from './Home/Home'
 import { Interview } from './Interview/Interview'
 import { Mine } from './Mine/Mine'
 import { Project } from './Project/Project'
-import { navStack } from '../comments/router/NavigationService';
-import { setupRouterInterceptor } from '../comments/router/RouterInterceptor';
 
-@Entry
+@Builder
+export function TabsPageBuilder() {
+  TabsPage()
+}
+
 @Component
 struct TabsPage {
   @State currentIndex: number = 0
-
-  aboutToAppear(): void {
-    setupRouterInterceptor(navStack)
-  }
 
   @Builder
   BarsType(img: Resource, str: string) {
@@ -25,7 +23,7 @@ struct TabsPage {
   }
 
   build() {
-    Navigation(navStack) {
+    NavDestination() {
       Column() {
 
         Tabs({
@@ -33,7 +31,6 @@ struct TabsPage {
           index: this.currentIndex
         }) {
           TabContent() {
-            //apiTest() //测试专用
             Home()
           }.tabBar(this.currentIndex == 0 ? this.BarsType($r('app.media.tabbar_home_fill'), '首页') :
             this.BarsType($r('app.media.tabbar_home'), '首页'))
@@ -61,10 +58,7 @@ struct TabsPage {
       }
       .height('100%')
       .width('100%')
-
-    }.hideNavBar(false)
-    .title('title栏')
-    .hideTitleBar(true) //隐藏导航栏
-    .mode(NavigationMode.Stack)
+    }
+    .hideTitleBar(true)
   }
 }

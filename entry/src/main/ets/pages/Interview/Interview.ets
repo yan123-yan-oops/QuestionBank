@@ -1,6 +1,6 @@
 import { AxiosError } from "@ohos/axios"
 import { apiQuestionList, apiQuestionRecommends } from "../../api/HttpRequtsts"
-import { navStack } from "../../comments/router/NavigationService"
+import { navStack, EmptyParam } from "../../comments/router/NavigationService"
 import { QuestionItem, InterviewDetailParam, QuestionRecommendsDetail } from "../../model/Model"
 
 @Builder
@@ -115,8 +115,9 @@ export struct Interview {
         })
       }
 
-      List() {
-        if (this.clickIndex == '最新') {
+      // 列表区域 —— 根据 tab 和登录状态切换
+      if (this.clickIndex == '最新') {
+        List() {
           ForEach(this.newQuestionItem, (item: QuestionItem) => {
             ListItem() {
               this.renderItem(item)
@@ -125,7 +126,38 @@ export struct Interview {
               navStack.pushPathByName('InterviewDetails', param)
             })
           })
-        } else {
+        }
+        .layoutWeight(1)
+      } else if (this.clickIndex == '推荐' && !this.isLogin) {
+        // 未登录 → 显示登录引导占位
+        Column() {
+          Image($r('app.media.ic_mine_logo'))
+            .width(80)
+            .height(80)
+            .margin({ bottom: 20 })
+
+          Text('登录后查看更多推荐面经')
+            .fontSize(16)
+            .fontColor($r('app.color.common_gray_03'))
+
+          Button('去登录')
+            .height(44)
+            .width(160)
+            .borderRadius(22)
+            .backgroundColor($r('app.color.common_main_color'))
+            .fontColor(Color.White)
+            .fontSize(16)
+            .margin({ top: 24 })
+            .onClick(() => {
+              navStack.pushPathByName('Login', new EmptyParam())
+            })
+        }
+        .layoutWeight(1)
+        .width('100%')
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+      } else {
+        List() {
           ForEach(this.recommendQuestionItem, (item: QuestionRecommendsDetail) => {
             ListItem() {
               this.renderRecommendItem(item)
@@ -135,8 +167,8 @@ export struct Interview {
             })
           })
         }
+        .layoutWeight(1)
       }
-      .layoutWeight(1)
 
     }
     .height('100%')

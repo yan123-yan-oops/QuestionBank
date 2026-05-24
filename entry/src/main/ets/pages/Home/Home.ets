@@ -18,15 +18,6 @@ export struct Home {
   @State isClock: boolean = false
   //监听登录状态是否发生变化，如果变化就获取打卡信息
   @StorageProp('isLogin') @Watch('onLoginStateChange') isLogin: boolean = false
-  @State ClockInDetails: ClockIn = {
-    nickName: '',
-    avatar: '',
-    miniAppPicture:'', //小程序二维码
-    clockinNumbers: 0,
-    clockinTotal: 0,
-    miniAppName:'', //小程序名
-    miniAppLogo:''//小程序Logo
-  }
 
   aboutToAppear(): void {
     this.fetchClockInStatus()
@@ -44,14 +35,6 @@ export struct Home {
       return
     }
 
-    // apiClockIn().then((res: ClockIn) => {
-    //   this.ClockInDetails = res
-    //   console.log('yan','获取打卡信息成功:' + JSON.stringify(res))
-    // }).catch((err:AxiosError)=>{
-    //   console.log('yan','获取打卡信息错误码:' + err.code)
-    //   console.log('yan','获取打卡信息错误信息' + err.message);
-    // })
-
     apiHasClockIn().then((res: HasFlagIn) => {
       this.isClock = res.flag
       console.log('yan', '获取打卡状态成功：' + JSON.stringify(res))
@@ -64,7 +47,7 @@ export struct Home {
   build() {
     Column() {
       //顶行
-      HomeHeader({isClock:this.isClock,ClockInDetails:this.ClockInDetails})
+      HomeHeader({isClock:this.isClock})
       //轮播图
       HomeBanner({bannerList:this.bannerList})
 

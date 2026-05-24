@@ -63,10 +63,16 @@ export struct Login {
 
       Column({ space: 10 }) {
 
-        Text('登录界面')
-
         Image($r('app.media.ic_interview_logo'))
           .width(100)
+
+        Text('面试通')
+          .fontSize(22)
+          .fontWeight(FontWeight.Bold)
+
+        Text('搞定企业面试，就用面试通')
+          .fontSize(14)
+          .fontColor($r('app.color.common_gray_01'))
 
         TextInput({ placeholder: '请输入账号', text: this.userName })
           .onChange((value: string) => {
@@ -95,45 +101,40 @@ export struct Login {
         .alignItems(VerticalAlign.Center)
         .justifyContent(FlexAlign.Start)
 
-        Row({ space: 8 }) {
-          Button('登录')
-            .onClick(() => {
+        Button('登录')
+          .width('80%')
+          .borderRadius(0)
+          .onClick(() => {
 
-              apiLogin(this.userName, this.passWord)
-                .then((res) => {
-                  console.log('yan', '登录成功'  + '打卡天数:' + res.clockinNumbers)
-                  promptAction.showToast({ message: '登录成功！' })
-                  auth.setUser(res)
+            apiLogin(this.userName, this.passWord)
+              .then((res) => {
+                console.log('yan', '登录成功'  + '打卡天数:' + res.clockinNumbers)
+                promptAction.showToast({ message: '登录成功！' })
+                auth.setUser(res)
 
-                  if (this.rememberPwd) {
-                    this.saveCredentials()
-                  } else {
-                    this.clearCredentials()
-                  }
+                if (this.rememberPwd) {
+                  this.saveCredentials()
+                } else {
+                  this.clearCredentials()
+                }
 
-                  console.log('yan','当前用户的token是：'+auth.getToken());
+                console.log('yan','当前用户的token是：'+auth.getToken());
 
-                  AppStorage.setOrCreate('isLogin', true)
+                AppStorage.setOrCreate('isLogin', true)
 
-                  const pendingTarget = AppStorage.get<string>('pendingTargetName')
-                  if (pendingTarget) {
-                    AppStorage.setOrCreate<string>('pendingTargetName', '')
-                    navStack.replacePathByName(pendingTarget, new EmptyParam())
-                  } else {
-                    navStack.clear()
-                  }
-                }).catch((err: AxiosError) => {
-                AlertDialog.show({ message: '用户名或密码不正确' })
-                console.log('yan', '登录失败：' + JSON.stringify(err))
-              })
-
+                const pendingTarget = AppStorage.get<string>('pendingTargetName')
+                if (pendingTarget) {
+                  AppStorage.setOrCreate<string>('pendingTargetName', '')
+                  navStack.replacePathByName(pendingTarget, new EmptyParam())
+                } else {
+                  navStack.pop()
+                }
+              }).catch((err: AxiosError) => {
+              AlertDialog.show({ message: '用户名或密码不正确' })
+              console.log('yan', '登录失败：' + JSON.stringify(err))
             })
 
-          Button('注册')
-            .onClick(() => {
-              navStack.pushPath({ name: 'RegisterPage' })
-            })
-        }
+          })
 
       }.width('90%')
       .height('100%')
