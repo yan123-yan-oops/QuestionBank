@@ -4,7 +4,7 @@ import { HomeBanner } from '../../comments/components/HomeComponents/HomeBuilder
 import { HomeFunction } from '../../comments/components/HomeComponents/HomeBuilder/HomeFunction';
 import { HomeHeader } from '../../comments/components/HomeComponents/HomeBuilder/HomeHeader';
 import { auth } from '../../comments/utils/Auth';
-import { ClockIn, HasFlagIn} from '../../model/Model';
+import { HasFlagIn} from '../../model/Model';
 
 // 必须用 @Builder 暴露，供 route_map 引用
 @Builder

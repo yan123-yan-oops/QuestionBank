@@ -1,3 +1,4 @@
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "@ohos/axios"
 import { httpClient } from "../comments/utils/HttpClient"
 import {
   ClockIn,
@@ -115,4 +116,63 @@ export const apiFeedBack = (questionId?:string,type?:Array<string>,feedBackInfo?
   //questionId:string -- 试题id -- 可选
   //type:array[string] -- 可选 -- 反馈类型,数组，1内容不准确2、知识点不准确3题目重复4其他
   //feedbackInfo:string -- 反馈记录 -- 可选
+}
+
+// ============================================================
+// AI 对话接口（小米 MiMo v2.5-Pro 模型，兼容 OpenAI 格式）
+// ============================================================
+const AI_BASE_URL = 'https://token-plan-cn.xiaomimimo.com/v1'
+const AI_API_KEY = 'tp-cimx8y5wgf5c00u6h65b1z3rnb689ejjyy7nocjv0ifuyhd8'
+const AI_MODEL = 'mimo-v2.5-pro'
+
+// 独立 axios 实例（不继承业务接口的 token/401 拦截器）
+const aiAxios = axios.create({
+  baseURL: AI_BASE_URL,
+  timeout: 60000,
+  headers: { 'Content-Type': 'application/json' }
+})
+
+aiAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  config.headers.Authorization = `Bearer ${AI_API_KEY}`
+  return config
+})
+
+// AI 对话请求体接口(使用openAI兼容模式)
+interface AIChatRequestBody {
+  model: string
+  messages: AIChatMessage[]
+  temperature: number
+  max_tokens: number
+}
+
+// AI 对话响应结构接口
+interface AIChatMessageContent {
+  content: string
+}
+
+interface AIChatChoice {
+  message: AIChatMessageContent
+}
+
+interface AIChatResponseBody {
+  choices: AIChatChoice[]
+}
+
+export interface AIChatMessage {
+  role: 'user' | 'assistant' | 'system'
+  content: string
+}
+
+export const apiAIChat = (messages: AIChatMessage[]): Promise<string> => {
+  const requestBody: AIChatRequestBody = {
+    model: AI_MODEL,
+    messages,
+    temperature: 0.7,
+    max_tokens: 4096
+  }
+
+  return aiAxios.post<AIChatResponseBody>('/chat/completions', requestBody)
+    .then((res: AxiosResponse<AIChatResponseBody>) => {
+      return res.data.choices[0].message.content
+    })
 }

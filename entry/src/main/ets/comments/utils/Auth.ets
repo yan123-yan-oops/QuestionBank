@@ -20,7 +20,7 @@ export class Auth {
 
   // 退出登录 → 清空
   clearUser(): void {
-    AppStorage.setOrCreate<UserClass>('user', new UserClass())
+    AppStorage.delete('user')
   }
 }
 

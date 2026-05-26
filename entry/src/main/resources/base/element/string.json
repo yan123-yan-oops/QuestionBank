@@ -11,6 +11,9 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },{
+      "name": "reason_microphone",
+      "value": "需要使用麦克风进行录音"
     }
   ]
 }

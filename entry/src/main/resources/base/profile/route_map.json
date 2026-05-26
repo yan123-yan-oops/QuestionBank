@@ -45,6 +45,16 @@
       "pageSourceFile": "src/main/ets/pages/Mine/DevPrompt.ets",
       "buildFunction": "DevPromptBuilder",
       "data": { "desc": "提示词页面" }
+    },{
+      "name": "AIConversation",
+      "pageSourceFile": "src/main/ets/pages/Mine/AIConversation.ets",
+      "buildFunction": "AIConversationBuilder",
+      "data": { "desc": "AI对话页面" }
+    },{
+      "name": "MicrophoneRecords",
+      "pageSourceFile": "src/main/ets/pages/Mine/MicrophoneRecords.ets",
+      "buildFunction": "MicrophoneRecordsBuilder",
+      "data": { "desc": "录音页面" }
     }
   ]
 }

@@ -21,7 +21,6 @@ axiosInstance.request({
 })
 
 //request.use = 请求发出去之前，先做一件事->验证有没有token，有的话就随着请求头发出去
-
 axiosInstance.interceptors.request.use((config:InternalAxiosRequestConfig)=>{
   const user = auth.getUser()
   if(user.token){
