@@ -1,11 +1,9 @@
 import { navStack, EmptyParam } from '../../comments/router/NavigationService';
-import { promptAction, PromptAction } from '@kit.ArkUI';
-import { apiHasClockIn, apiLogin } from '../../api/HttpRequtsts';
+import { promptAction } from '@kit.ArkUI';
+import {  apiLogin } from '../../api/HttpRequtsts';
 import { auth } from '../../comments/utils/Auth';
 import { AxiosError } from '@ohos/axios';
 import { preferences } from '@kit.ArkData';
-
-interface PageParam {}
 
 @Builder
 export function LoginBuilder() {
@@ -20,42 +18,55 @@ export struct Login {
 
   aboutToAppear(): void {
     const ctx = getContext(this)
-    preferences.getPreferences(ctx, 'login_config').then((pref) => {
-      const savedUsername = pref.getSync('username', '') as string
-      const savedPassword = pref.getSync('password', '') as string
-      const savedRemember = pref.getSync('rememberPwd', false) as boolean
-      if (savedRemember && savedUsername && savedPassword) {
-        this.userName = savedUsername
-        this.passWord = savedPassword
-        this.rememberPwd = true
-      }
-    }).catch((err:BusinessError) => {
-      console.log('yan', '读取保存的密码失败：' + JSON.stringify(err))
-    })
+    try {
+      preferences.getPreferences(ctx, 'login_config').then((pref) => {//用户首选项--轻量级、不保密 -->一般保存用户设置偏好和应用配置参数
+        const savedUsername = pref.getSync('username', '') as string
+        const savedPassword = pref.getSync('password', '') as string
+        const savedRemember = pref.getSync('rememberPwd', false) as boolean
+        if (savedRemember && savedUsername && savedPassword) {
+          this.userName = savedUsername
+          this.passWord = savedPassword
+          this.rememberPwd = true
+        }
+      }).catch((err:BusinessError) => {
+        console.log('yan', '读取保存的密码失败：' + JSON.stringify(err))
+      })
+    }catch (err){
+      console.log('yan',err);
+    }
   }
 
   saveCredentials(): void {
     const ctx = getContext(this)
-    preferences.getPreferences(ctx, 'login_config').then((pref) => {
-      pref.putSync('username', this.userName)
-      pref.putSync('password', this.passWord)
-      pref.putSync('rememberPwd', this.rememberPwd)
-      pref.flushSync()
-    }).catch((err: BusinessError) => {
-      console.log('yan', '保存密码失败：' + JSON.stringify(err))
-    })
+    try {
+      preferences.getPreferences(ctx, 'login_config').then((pref) => {
+        pref.putSync('username', this.userName)
+        pref.putSync('password', this.passWord)
+        pref.putSync('rememberPwd', this.rememberPwd)
+        pref.flushSync()
+      }).catch((err: BusinessError) => {
+        console.log('yan', '保存密码失败：' + JSON.stringify(err))
+      })
+    }catch (err){
+      console.log('yan',err);
+    }
   }
 
   clearCredentials(): void {
     const ctx = getContext(this)
-    preferences.getPreferences(ctx, 'login_config').then((pref) => {
-      pref.putSync('username', '')
-      pref.putSync('password', '')
-      pref.putSync('rememberPwd', false)
-      pref.flushSync()
-    }).catch((err: BusinessError) => {
-      console.log('yan', '清除密码失败：' + JSON.stringify(err))
-    })
+    try {
+      preferences.getPreferences(ctx, 'login_config').then((pref) => {
+        pref.putSync('username', '')
+        pref.putSync('password', '')
+        pref.putSync('rememberPwd', false)
+        pref.flushSync()
+      }).catch((err: BusinessError) => {
+        console.log('yan', '清除密码失败：' + JSON.stringify(err))
+      })
+    }catch (err){
+      console.log('yan',err);
+    }
+
   }
 
   build() {
@@ -108,7 +119,7 @@ export struct Login {
 
             apiLogin(this.userName, this.passWord)
               .then((res) => {
-                console.log('yan', '登录成功'  + '打卡天数:' + res.clockinNumbers)
+                console.log('yan', '登录成功'  + '打卡天数:' + res.clockInNumbers)
                 promptAction.showToast({ message: '登录成功！' })
                 auth.setUser(res)
 

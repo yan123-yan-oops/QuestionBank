@@ -96,7 +96,7 @@ export class UserClass {
   @Trace token:string=''
   @Trace nickname:string=''
   @Trace totalTime:number = 0
-  @Trace clockinNumbers:number = 0//打卡次数
+  @Trace clockInNumbers:number = 0//打卡次数
 }
 
 @ObservedV2

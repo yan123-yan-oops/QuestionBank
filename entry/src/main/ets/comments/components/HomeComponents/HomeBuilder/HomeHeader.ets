@@ -34,7 +34,7 @@ export struct HomeHeader {
             Image($r('app.media.ic_common_clocked'))
               .width(72)
 
-            Text('连续打卡' + auth.getUser().clockinNumbers + '天').fontSize(12)
+            Text('连续打卡' + auth.getUser().clockInNumbers + '天').fontSize(12)
           }
         }.margin({left:-10})
 

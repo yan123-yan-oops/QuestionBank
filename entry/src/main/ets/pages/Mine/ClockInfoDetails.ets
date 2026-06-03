@@ -21,7 +21,7 @@ export struct ClockInfoDetails {
     const user = auth.getUser()
     this.userName = user.nickname || user.username
     this.userAvatar = user.avatar
-    this.clockinNumbers = user.clockinNumbers
+    this.clockinNumbers = user.clockInNumbers
     this.totalTime = user.totalTime
   }
 
