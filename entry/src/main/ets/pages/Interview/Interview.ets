@@ -54,6 +54,7 @@ export struct Interview {
 
   build() {
     Column({space:10}) {
+      Blank().height(35)
       //搜索行
       Row() {
         Stack({ alignContent: Alignment.Start }) {

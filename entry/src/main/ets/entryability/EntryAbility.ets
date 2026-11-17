@@ -19,6 +19,22 @@ export default class EntryAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
+    try {
+      // 获取主窗口
+      let mainWin = windowStage.getMainWindowSync();
+      // 1.开启布局延伸到状态栏/导航栏【沉浸式核心】
+      mainWin.setWindowLayoutFullScreen(true)
+        .then(()=>{
+          // 2.状态栏、导航栏全透明
+          mainWin.setWindowSystemBarProperties({
+            statusBarColor: "#00000000",       // ARGB 全透明
+            navigationBarColor: "#00000000",
+            statusBarContentColor: "#000000",  // 状态栏图标黑色(白底页面用)
+            navigationBarContentColor: "#000000"
+          })
+        })
+    }catch (err) {}
+
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 

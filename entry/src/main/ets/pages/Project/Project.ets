@@ -8,7 +8,9 @@ export function ProjectBuilder() {
 export struct Project {
 
   build() {
+
     Column({space:18}) {
+      Blank().height(35)
       Row(){
         Text('项目')
           .fontWeight(FontWeight.Bold)

@@ -9,6 +9,9 @@ export struct HomeHeader {
 
   build() {
     Column(){
+
+      Blank().height(35)
+
       Row() {
         Image($r('app.media.line_scanfinder')).fillColor($r('app.color.common_gray_01')).width(22)
 
